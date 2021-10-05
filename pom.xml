@@ -48,6 +48,8 @@
                             --enable-http
                             --enable-https
                             --initialize-at-build-time=org.slf4j
+                            --native-image-info
+                            --verbose
                             -H:+PrintClassInitialization
                         </buildArgs>
                     </configuration>

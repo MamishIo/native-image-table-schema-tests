@@ -22,6 +22,30 @@
             <plugin>
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
+                <version>0.9.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imageName>${project.artifactId}</imageName>
+                    <mainClass>${module.mainClass}</mainClass>
+                    <!-- Note build-time initialization is configured in native-image-support/resources,
+                         due to a parsing issue encountered when including arguments here -->
+                    <buildArgs>
+                        --no-fallback
+                        --enable-http
+                        --enable-https
+                        --initialize-at-build-time=org.slf4j
+                        --native-image-info
+                        --verbose
+                        -H:+PrintClassInitialization
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>
