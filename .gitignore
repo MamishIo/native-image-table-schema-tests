@@ -1,0 +1,7 @@
+# Project exclude paths
+/class-init-example/target/
+/class-init-example-support/target/
+/feature-init-example/target/
+/feature-init-example-support/target/
+/reflect-config-example/target/
+/reflect-config-example-support/target/
