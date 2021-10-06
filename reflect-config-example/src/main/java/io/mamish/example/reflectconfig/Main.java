@@ -1,13 +1,20 @@
 package io.mamish.example.reflectconfig;
 
-import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import com.google.gson.Gson;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Generating schema reflectively...");
-        TableSchema<ExampleReflectedBean> schema = TableSchema.fromBean(ExampleReflectedBean.class);
-        System.out.println("Schema: " + schema);
+        System.out.println("Parsing GSON reflectively...");
+        Gson gson = new Gson();
+        String json = "{" +
+                "\"id\":\"foo\"," +
+                "\"nested\":{" +
+                "\"number\":7" +
+                "}}";
+        ExampleJavaObject exampleObject = gson.fromJson(json, ExampleJavaObject.class);
+        System.out.println(exampleObject);
+        System.out.println("Nested number = " + exampleObject.getNested().getNumber());
     }
 
 }

@@ -20,9 +20,7 @@ import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 
-@SupportedAnnotationTypes({
-        "software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean"
-})
+@SupportedAnnotationTypes({"io.mamish.example.reflectconfig.support.EnableFieldReflection"})
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class ReflectConfigGenerator extends AbstractProcessor {
 
@@ -63,7 +61,7 @@ public class ReflectConfigGenerator extends AbstractProcessor {
     }
 
     private void registerFieldTypes(TypeElement type, SortedSet<JsonObject> sortedConfigEntries) {
-        JsonObject classConfigEntry = createReflectConfigEntry(getQualifiedTypeName(type), FIELD_REFLECT_FLAGS);
+        JsonObject classConfigEntry = createReflectConfigEntry(getBinaryName(type), FIELD_REFLECT_FLAGS);
         boolean notSeenBefore = sortedConfigEntries.add(classConfigEntry);
         // Don't recurse into this type if we have seen it before
         if (notSeenBefore) {
@@ -105,8 +103,8 @@ public class ReflectConfigGenerator extends AbstractProcessor {
         return element;
     }
 
-    private String getQualifiedTypeName(TypeElement element) {
-        String fullName = element.getQualifiedName().toString();
+    private String getBinaryName(TypeElement element) {
+        String fullName = processingEnv.getElementUtils().getBinaryName(element).toString();
         if (fullName.isEmpty()) {
             throw new RuntimeException("Couldn't map element '" + element + "' to a qualified name");
         }

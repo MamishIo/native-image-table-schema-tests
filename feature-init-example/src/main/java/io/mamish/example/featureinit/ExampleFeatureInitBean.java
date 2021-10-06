@@ -2,12 +2,20 @@ package io.mamish.example.featureinit;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 @DynamoDbBean
 public class ExampleFeatureInitBean {
 
-    private String id;
-    private String value;
+    protected String id;
+    protected int schemaVersion;
+
+    public ExampleFeatureInitBean() { }
+
+    public ExampleFeatureInitBean(String id, int schemaVersion) {
+        this.id = id;
+        this.schemaVersion = schemaVersion;
+    }
 
     @DynamoDbPartitionKey
     public String getId() {
@@ -18,11 +26,13 @@ public class ExampleFeatureInitBean {
         this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    @DynamoDbSortKey
+    public int getSchemaVersion() {
+        return schemaVersion;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setSchemaVersion(int schemaVersion) {
+        this.schemaVersion = schemaVersion;
     }
+
 }
